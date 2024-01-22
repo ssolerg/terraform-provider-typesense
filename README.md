@@ -1,12 +1,9 @@
-# Terraform Provider for Typesense
+<div align="center">
+  <h1>Terraform Provider for Typesense</h1>
+  <strong>This is a Terraform provider for Typesense</strong>
+</div>
 
-This is a [Terraform](https://www.terraform.io/) provider for [Typesense](https://typesense.org/).
-
-## Maintainers
-
-This provider plugin is maintained by:
-
-* [@KeisukeYamashita](https;//github.com/KeisukeYamashita)
+<hr>
 
 ## Support
 
@@ -18,13 +15,13 @@ This provider plugin is maintained by:
 
 ## Building The Provider
 
-Clone repository to: `$GOPATH/src/github.com/Kekenika/terraform-provider-typesense`
+Clone repository to: `$GOPATH/src/github.com/ronati/terraform-provider-typesense`
 
 ```console
-$ mkdir -p $GOPATH/src/github.com/Kekenika; cd $GOPATH/src/github.com/Kekenika
-$ git clone git@github.com:Kekenika/terraform-provider-typesense
+$ mkdir -p $GOPATH/src/github.com/ronati; cd $GOPATH/src/github.com/ronati
+$ git clone git@github.com:ronati/terraform-provider-typesense
 Enter the provider directory and build the provider
 
-$ cd $GOPATH/src/github.com/Kekenika/terraform-provider-typesense
+$ cd $GOPATH/src/github.com/ronati/terraform-provider-typesense
 $ make build
 ```
