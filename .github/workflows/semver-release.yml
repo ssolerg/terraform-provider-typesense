@@ -31,7 +31,8 @@ jobs:
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
       - name: Check commit format
-        run: npx commitlint --from HEAD~1 --to HEAD --verbose
+        # Checks commit from latest tag on this branch
+        run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
