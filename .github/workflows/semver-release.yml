@@ -25,7 +25,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
-          cache: "npm"
       # TODO: Run Go/Terraform tests to make sure we publish a working version
       # - name: Test
       #   run:
