@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
       - name: Validate PR commits with commitlint
-        run: npx commitlint --from $GITHUB_SHA --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: npx commitlint --from ${{ github.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
   test:
     runs-on: ubuntu-22.04
