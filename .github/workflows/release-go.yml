@@ -10,11 +10,13 @@
 # You will need to pass the `--batch` flag to `gpg` in your signing step
 # in `goreleaser` to indicate this is being used in a non-interactive mode.
 #
-name: Release Go artefacts
+name: Release Go artifacts
 on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+    branches:
+      - test-build
 
 permissions:
   contents: write
