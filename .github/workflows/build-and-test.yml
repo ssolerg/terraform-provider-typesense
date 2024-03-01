@@ -31,7 +31,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: 1.22.x
-      - name: Run GoReleaser
       - name: Build app
         run: make build
       - name: Test app
