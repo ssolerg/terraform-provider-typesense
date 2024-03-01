@@ -27,8 +27,8 @@ jobs:
         with:
           node-version: "20.x"
       # TODO: Run Go/Terraform tests to make sure we publish a working version
-      # - name: Test
-      #   run:
+      - name: Test
+        run: make test
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
       - name: Check commit format
