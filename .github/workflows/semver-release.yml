@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - beta
+      - test-build
 
 permissions:
   contents: read # for checkout
