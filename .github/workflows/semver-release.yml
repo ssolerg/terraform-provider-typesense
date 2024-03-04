@@ -31,11 +31,11 @@ jobs:
         run: make test
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
-      # - name: Check commit format
-      #   # Checks commit from latest tag on this branch
-      #   # run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
-      #   # TODO: replace this line with the one above once we published our first semver tag
-      #   run: npx commitlint --from 3a7bc32 --to HEAD --verbose
+      - name: Check commit format
+        # Checks commit from latest tag on this branch
+        # run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
+        # TODO: replace this line with the one above once we published our first semver tag
+        run: npx commitlint --from 3a7bc32 --to HEAD --verbose
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
