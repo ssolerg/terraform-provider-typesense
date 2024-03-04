@@ -1,3 +1,11 @@
+## [0.0.2-test-build.3](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.2-test-build.2...v0.0.2-test-build.3) (2024-03-04)
+
+
+### Bug Fixes
+
+* **tag fix:** Updated tag to test release ([c5a908b](https://github.com/ronati/terraform-provider-typesense/commit/c5a908b9308c04f820f05b16b3f5c5c1ed6882d2))
+* **test:** test version build ([3a11093](https://github.com/ronati/terraform-provider-typesense/commit/3a11093c96e544fa8b5361414e02ac9066c83e21))
+
 ## [0.0.2-test-build.2](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.2-test-build.1...v0.0.2-test-build.2) (2024-03-04)
 
 
