@@ -104,7 +104,7 @@ func resourceTypesenseCollectionCreate(ctx context.Context, d *schema.ResourceDa
 	}
 
 	if v := d.Get("default_sorting_field"); v != "" {
-		schema.DefaultSortingField = v.(string)
+		schema.DefaultSortingField = v.(*string)
 	}
 
 	fields := []api.Field{}
@@ -112,12 +112,12 @@ func resourceTypesenseCollectionCreate(ctx context.Context, d *schema.ResourceDa
 		v := vs.(map[string]interface{})
 
 		field := api.Field{
-			Name: v["name"].(string),
+			Name: v["name"].(string) + "_v2",
 			Type: v["type"].(string),
 		}
 
 		if value := v["facet"]; value != "" {
-			field.Facet = value.(bool)
+			field.Facet = value.(*bool)
 		}
 
 		if value := v["optional"]; value != "" {
@@ -155,7 +155,7 @@ func resourceTypesenseCollectionRead(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	log.Printf("[DEBUG] Got collection name:%s\n", collection.Name)
+	log.Printf("[ERROR] Got collection name:%s\n", collection.Name)
 
 	if err := d.Set("name", collection.Name); err != nil {
 		return diag.FromErr(err)
@@ -197,7 +197,7 @@ func resourceTypesenseCollectionUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 
 	if v := d.Get("default_sorting_field"); v != "" {
-		schema.DefaultSortingField = v.(string)
+		schema.DefaultSortingField = v.(*string)
 	}
 
 	fields := []api.Field{}
@@ -210,11 +210,11 @@ func resourceTypesenseCollectionUpdate(ctx context.Context, d *schema.ResourceDa
 		}
 
 		if value := v["facet"]; value != "" {
-			field.Facet = value.(bool)
+			field.Facet = value.(*bool)
 		}
 
 		if value := v["optional"]; value != "" {
-			field.Optional = value.(bool)
+			field.Optional = value.(*bool)
 		}
 
 		if value := v["index"]; value != "" {

@@ -101,7 +101,7 @@ func resourceTypesenseCurationUpsert(ctx context.Context, d *schema.ResourceData
 		rule := vs[0].(map[string]interface{})
 
 		overwriteSchema.Rule = api.SearchOverrideRule{
-			Match: rule["match"].(string),
+			Match: rule["match"].(api.SearchOverrideRuleMatch),
 			Query: rule["query"].(string),
 		}
 	}
@@ -123,7 +123,7 @@ func resourceTypesenseCurationUpsert(ctx context.Context, d *schema.ResourceData
 			includes[i] = include
 		}
 
-		overwriteSchema.Includes = includes
+		overwriteSchema.Includes = &includes
 	}
 
 	if vs := d.Get("excludes").([]interface{}); len(vs) > 0 {
@@ -136,7 +136,7 @@ func resourceTypesenseCurationUpsert(ctx context.Context, d *schema.ResourceData
 			}
 		}
 
-		overwriteSchema.Excludes = excludes
+		overwriteSchema.Excludes = &excludes
 	}
 
 	override, err := client.Collection(collectionName).Overrides().Upsert(name, overwriteSchema)
@@ -176,13 +176,13 @@ func resourceTypesenseCurationRead(ctx context.Context, d *schema.ResourceData, 
 		return diag.FromErr(err)
 	}
 
-	if len(override.Includes) > 0 {
+	if len(*override.Includes) > 0 {
 		if err := d.Set("includes", flattenCurationIncludes(override.Includes)); err != nil {
 			return diag.FromErr(err)
 		}
 	}
 
-	if len(override.Excludes) > 0 {
+	if len(*override.Excludes) > 0 {
 		if err := d.Set("excludes", flattenCurationExcludes(override.Excludes)); err != nil {
 			return diag.FromErr(err)
 		}
@@ -236,10 +236,10 @@ func flattenCurationRule(rule api.SearchOverrideRule) []interface{} {
 	return res
 }
 
-func flattenCurationIncludes(includes []api.SearchOverrideInclude) []interface{} {
-	ins := make([]interface{}, len(includes))
+func flattenCurationIncludes(includes *[]api.SearchOverrideInclude) []interface{} {
+	ins := make([]interface{}, len(*includes))
 
-	for i, include := range includes {
+	for i, include := range *includes {
 		in := make(map[string]interface{})
 		in["id"] = include.Id
 
@@ -253,10 +253,10 @@ func flattenCurationIncludes(includes []api.SearchOverrideInclude) []interface{}
 	return ins
 }
 
-func flattenCurationExcludes(excludes []api.SearchOverrideExclude) []interface{} {
-	exs := make([]interface{}, len(excludes))
+func flattenCurationExcludes(excludes *[]api.SearchOverrideExclude) []interface{} {
+	exs := make([]interface{}, len(*excludes))
 
-	for i, exclude := range excludes {
+	for i, exclude := range *excludes {
 		ex := make(map[string]interface{})
 		ex["id"] = exclude.Id
 		exs[i] = ex
