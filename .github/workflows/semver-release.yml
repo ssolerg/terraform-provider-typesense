@@ -6,7 +6,7 @@ on:
       - beta
 
 permissions:
-  contents: read # for checkout
+  contents: write # to be able to publish a GitHub release
 
 jobs:
   release:
