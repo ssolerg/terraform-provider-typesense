@@ -1,3 +1,25 @@
+## [0.0.5](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.4...v0.0.5) (2024-03-07)
+
+
+### Bug Fixes
+
+* **ci:** Added app token to checkout step ([33709af](https://github.com/ronati/terraform-provider-typesense/commit/33709af4f752396b14411f5bbbc9f3dc93a88039))
+* **ci:** Added missed  environment ([605ed47](https://github.com/ronati/terraform-provider-typesense/commit/605ed47cf73fa5ed2d5e2387050ff095c49a0c86))
+* **ci:** Fixed build logic ([5a37489](https://github.com/ronati/terraform-provider-typesense/commit/5a3748959cb034b536e031ec8417a98a877121ec))
+* **ci:** Test app token to publish release to fixed branch ([f98510e](https://github.com/ronati/terraform-provider-typesense/commit/f98510eaf9c790987e3f475219862b6433b401f9))
+* **ci:** Test write permissions to fix branch restriction ([51a4b28](https://github.com/ronati/terraform-provider-typesense/commit/51a4b28fe745509c860df7026b3839f4754a6e98))
+
+## [0.0.5-beta.1](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.4...v0.0.5-beta.1) (2024-03-07)
+
+
+### Bug Fixes
+
+* **ci:** Added app token to checkout step ([33709af](https://github.com/ronati/terraform-provider-typesense/commit/33709af4f752396b14411f5bbbc9f3dc93a88039))
+* **ci:** Added missed  environment ([605ed47](https://github.com/ronati/terraform-provider-typesense/commit/605ed47cf73fa5ed2d5e2387050ff095c49a0c86))
+* **ci:** Fixed build logic ([5a37489](https://github.com/ronati/terraform-provider-typesense/commit/5a3748959cb034b536e031ec8417a98a877121ec))
+* **ci:** Test app token to publish release to fixed branch ([f98510e](https://github.com/ronati/terraform-provider-typesense/commit/f98510eaf9c790987e3f475219862b6433b401f9))
+* **ci:** Test write permissions to fix branch restriction ([51a4b28](https://github.com/ronati/terraform-provider-typesense/commit/51a4b28fe745509c860df7026b3839f4754a6e98))
+
 ## [0.0.2-test-build.3](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.2-test-build.2...v0.0.2-test-build.3) (2024-03-04)
 
 
