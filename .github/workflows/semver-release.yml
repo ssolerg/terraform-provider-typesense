@@ -26,7 +26,7 @@ jobs:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
@@ -38,6 +38,9 @@ jobs:
       - name: Build app
         run: make build
       - name: Test app
+        run: make test
+      - name: Generate documentation
+        run: make docs
         run: make test
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
