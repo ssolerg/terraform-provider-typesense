@@ -41,7 +41,6 @@ jobs:
         run: make test
       - name: Generate documentation
         run: make docs
-        run: make test
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
       # - name: Check commit format
