@@ -1,9 +1,10 @@
-## [0.0.5-beta.2](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.5-beta.1...v0.0.5-beta.2) (2024-03-07)
+## [0.0.5](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.4...v0.0.5) (2024-03-07)
 
 
 ### Bug Fixes
 
 * **ci:** Fixed typo in release triggers ([97372f1](https://github.com/ronati/terraform-provider-typesense/commit/97372f12fce26609d1b8766a2627fffb0aeb40ee))
+
 
 ## [0.0.5-beta.1](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.4...v0.0.5-beta.1) (2024-03-07)
 
