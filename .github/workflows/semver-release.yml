@@ -6,7 +6,7 @@ on:
       - beta
 
 permissions:
-  contents: write # to be able to publish a GitHub release
+  contents: read # to fetch code
 
 jobs:
   release:
@@ -17,6 +17,12 @@ jobs:
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
     steps:
+      - name: 'Generate token'
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -39,5 +45,5 @@ jobs:
       #   run: npx commitlint --from 3a7bc32 --to HEAD --verbose
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: npx semantic-release
