@@ -6,36 +6,47 @@ on:
       - beta
 
 permissions:
-  contents: read # for checkout
+  contents: read # to fetch code
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    environment:
+      name: release
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
     steps:
+      - name: 'Generate token'
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
       # TODO: Run Go/Terraform tests to make sure we publish a working version
-      # - name: Test
-      #   run:
+      - name: Build app
+        run: make build
+      - name: Test app
+        run: make test
       - name: Install dependencies
         run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
-      - name: Check commit format
-        # Checks commit from latest tag on this branch
-        # run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
-        # TODO: replace this line with the one above once we published our first semver tag
-        run: npx commitlint --from 3a7bc32 --to HEAD --verbose
+      # - name: Check commit format
+      #   # Checks commit from latest tag on this branch
+      #   # run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
+      #   # TODO: replace this line with the one above once we published our first semver tag
+      #   run: npx commitlint --from 3a7bc32 --to HEAD --verbose
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: npx semantic-release
