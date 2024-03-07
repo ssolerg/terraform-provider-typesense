@@ -1,3 +1,10 @@
+## [0.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.6...v0.0.7) (2024-03-07)
+
+
+### Bug Fixes
+
+* **ci:** Removed comment ([58425de](https://github.com/ronati/terraform-provider-typesense/commit/58425de0dabe84699f4ebdd75a55a6d6de3827bb))
+
 ## [0.0.6-beta.1](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.5...v0.0.6-beta.1) (2024-03-07)
 
 
