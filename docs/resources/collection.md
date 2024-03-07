@@ -17,16 +17,16 @@ Collection resource
 
 ### Required
 
+- `default_sorting_field` (String) Default sorting field
 - `name` (String) Collection name
 
 ### Optional
 
-- `default_sorting_field` (String) Default sorting field
 - `fields` (Block List) (see [below for nested schema](#nestedblock--fields))
 
 ### Read-Only
 
-- `id` (String) Example identifier
+- `id` (String) Id identifier
 
 <a id="nestedblock--fields"></a>
 ### Nested Schema for `fields`
