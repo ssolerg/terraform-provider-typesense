@@ -42,7 +42,7 @@ jobs:
       - name: Generate documentation
         run: make docs
       - name: Install dependencies
-        run: npm i -D @semantic-release/git @semantic-release/changelog @commitlint/{cli,config-conventional} commitlint
+        run: npm i
       # - name: Check commit format
       #   # Checks commit from latest tag on this branch
       #   # run: npx commitlint --from $(git describe --tags) --to HEAD --verbose
