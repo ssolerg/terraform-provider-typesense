@@ -1,8 +1,7 @@
 {
   "branches": [
     "master",
-    { "name": "beta", "prerelease": true },
-    { "name": "auto-type", "prerelease": true }
+    { "name": "beta", "prerelease": true }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -12,7 +11,7 @@
       "@semantic-release/git",
       {
         "assets": ["docs", "CHANGELOG.md"],
-        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes} [skip ci]"
       }
     ]
   ]
