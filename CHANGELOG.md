@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.4...v1.0.5) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Revert release message changes ([b41e45e](https://github.com/ronati/terraform-provider-typesense/commit/b41e45e8d959b45dd53a719f7998be996c832cc7))
+
 ## [1.0.4](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.3...v1.0.4) (2024-03-11)
 
 
