@@ -40,7 +40,7 @@ jobs:
       - name: Test app
         run: make testacc
       - name: Generate documentation
-        run: make docs
+        run: make doc
       - name: Install dependencies
         run: npm i
       # - name: Check commit format

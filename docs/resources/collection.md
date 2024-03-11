@@ -3,12 +3,12 @@
 page_title: "typesense_collection Resource - typesense"
 subcategory: ""
 description: |-
-  Collection resource
+  Group of related documents which are roughly equivalent to a table in a relational database. Terraform will still remove auto-created fields for collections with auto-type, so you need to manually update the collection schema to match generated fields
 ---
 
 # typesense_collection (Resource)
 
-Collection resource
+Group of related documents which are roughly equivalent to a table in a relational database. Terraform will still remove auto-created fields for collections with auto-type, so you need to manually update the collection schema to match generated fields
 
 ## Example Usage
 
@@ -57,7 +57,7 @@ resource "typesense_collection" "my_collection" {
 Required:
 
 - `name` (String)
-- `type` (String) Field type
+- `type` (String) Field type.
 
 Optional:
 
