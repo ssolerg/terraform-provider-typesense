@@ -52,7 +52,7 @@ func (r *CollectionResource) Metadata(ctx context.Context, req resource.Metadata
 
 func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Collection resource",
+		MarkdownDescription: "Group of related documents which are roughly equivalent to a table in a relational database. Terraform will still remove auto-created fields for collections with auto-type, so you need to manually update the collection schema to match generated fields",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -101,7 +101,7 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						},
 						"type": schema.StringAttribute{
 							Required:    true,
-							Description: "Field type",
+							Description: "Field type.",
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"string",
