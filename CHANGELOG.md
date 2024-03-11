@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.3...v1.0.4) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Fixed docs generation ([302b82d](https://github.com/ronati/terraform-provider-typesense/commit/302b82d0806a10012171735c1dfb97a705e1507d))
+* **ci:** Updated script ([04a15b7](https://github.com/ronati/terraform-provider-typesense/commit/04a15b7324e79bf4f6e0a262932c26720be1a98b))
+
 ## [0.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.6...v0.0.7) (2024-03-07)
 
 
