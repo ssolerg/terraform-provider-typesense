@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.6...v1.0.7) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Test commit format ([8b3da2b](https://github.com/ronati/terraform-provider-typesense/commit/8b3da2bfc6f6fe3b01feb9d8af437baff12ca585))
+
 ## [1.0.6](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.5...v1.0.6) (2024-03-11)
 
 
