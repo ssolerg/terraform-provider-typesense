@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.7...v1.0.8) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Test action condition ([ea83d94](https://github.com/ronati/terraform-provider-typesense/commit/ea83d9450933a7992fbc771f12ac06743baff52d))
+
 ## [1.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.6...v1.0.7) (2024-03-11)
 
 
