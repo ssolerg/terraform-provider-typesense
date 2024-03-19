@@ -34,7 +34,7 @@ resource "typesense_collection" "test_collection" {
     index    = true
     name     = "test_field_2_updated"
     optional = true
-    type     = "string"
+    type     = "object"
   }
 
 }

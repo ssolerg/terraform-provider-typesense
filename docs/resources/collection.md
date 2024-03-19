@@ -45,6 +45,7 @@ resource "typesense_collection" "my_collection" {
 
 ### Optional
 
+- `enable_nested_fields` (Boolean) Enable nested fields, must be enabled to use object/object[] types
 - `fields` (Block List) (see [below for nested schema](#nestedblock--fields))
 
 ### Read-Only
