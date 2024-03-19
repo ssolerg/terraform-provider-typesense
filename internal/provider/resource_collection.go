@@ -36,6 +36,7 @@ type CollectionResourceModel struct {
 	Name                types.String                   `tfsdk:"name"`
 	DefaultSortingField types.String                   `tfsdk:"default_sorting_field"`
 	Fields              []CollectionResourceFieldModel `tfsdk:"fields"`
+	EnableNestedFields  types.Bool                     `tfsdk:"enable_nested_fields"`
 }
 
 type CollectionResourceFieldModel struct {
@@ -75,6 +76,12 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+			},
+			"enable_nested_fields": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Enable nested fields, must be enabled to use object/object[] types",
+				Default:             booldefault.StaticBool(false),
 			},
 		},
 		Blocks: map[string]schema.Block{
@@ -163,6 +170,7 @@ func (r *CollectionResource) Create(ctx context.Context, req resource.CreateRequ
 	schema := &api.CollectionSchema{}
 	schema.Name = data.Name.ValueString()
 	schema.DefaultSortingField = data.DefaultSortingField.ValueStringPointer()
+	schema.EnableNestedFields = data.EnableNestedFields.ValueBoolPointer()
 
 	fields := []api.Field{}
 
@@ -181,6 +189,7 @@ func (r *CollectionResource) Create(ctx context.Context, req resource.CreateRequ
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
 	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -211,6 +220,7 @@ func (r *CollectionResource) Read(ctx context.Context, req resource.ReadRequest,
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
 	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
