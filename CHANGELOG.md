@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.8...v1.1.0) (2024-03-19)
+
+
+### Features
+
+* Added support for object type ([4f6294a](https://github.com/ronati/terraform-provider-typesense/commit/4f6294a1ab21b61753986a200ce2a131b9273929))
+
 ## [1.0.8](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.7...v1.0.8) (2024-03-11)
 
 
