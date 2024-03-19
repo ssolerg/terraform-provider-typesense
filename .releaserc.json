@@ -1,10 +1,18 @@
 {
-  "branches": ["master", { "name": "beta", "prerelease": true }, { "name": "test-build", "prerelease": true }],
+  "branches": [
+    "master",
+    { "name": "beta", "prerelease": true }
+  ],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@semantic-release/github",
-    "@semantic-release/git"
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["docs", "CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+      }
+    ]
   ]
 }

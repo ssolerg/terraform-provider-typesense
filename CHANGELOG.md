@@ -1,3 +1,53 @@
+# [1.1.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.8...v1.1.0) (2024-03-19)
+
+
+### Features
+
+* Added support for object type ([4f6294a](https://github.com/ronati/terraform-provider-typesense/commit/4f6294a1ab21b61753986a200ce2a131b9273929))
+
+## [1.0.8](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.7...v1.0.8) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Test action condition ([ea83d94](https://github.com/ronati/terraform-provider-typesense/commit/ea83d9450933a7992fbc771f12ac06743baff52d))
+
+## [1.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.6...v1.0.7) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Test commit format ([8b3da2b](https://github.com/ronati/terraform-provider-typesense/commit/8b3da2bfc6f6fe3b01feb9d8af437baff12ca585))
+
+## [1.0.6](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.5...v1.0.6) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Returned message format ([10d26cd](https://github.com/ronati/terraform-provider-typesense/commit/10d26cdf94900a2673cda07825bc7013768bf928))
+
+## [1.0.5](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.4...v1.0.5) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Revert release message changes ([b41e45e](https://github.com/ronati/terraform-provider-typesense/commit/b41e45e8d959b45dd53a719f7998be996c832cc7))
+
+## [1.0.4](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.3...v1.0.4) (2024-03-11)
+
+
+### Bug Fixes
+
+* **ci:** Fixed docs generation ([302b82d](https://github.com/ronati/terraform-provider-typesense/commit/302b82d0806a10012171735c1dfb97a705e1507d))
+* **ci:** Updated script ([04a15b7](https://github.com/ronati/terraform-provider-typesense/commit/04a15b7324e79bf4f6e0a262932c26720be1a98b))
+
+## [0.0.7](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.6...v0.0.7) (2024-03-07)
+
+
+### Bug Fixes
+
+* **ci:** Removed comment ([58425de](https://github.com/ronati/terraform-provider-typesense/commit/58425de0dabe84699f4ebdd75a55a6d6de3827bb))
+
 ## [0.0.6-beta.1](https://github.com/ronati/terraform-provider-typesense/compare/v0.0.5...v0.0.6-beta.1) (2024-03-07)
 
 

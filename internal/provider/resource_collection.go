@@ -36,6 +36,7 @@ type CollectionResourceModel struct {
 	Name                types.String                   `tfsdk:"name"`
 	DefaultSortingField types.String                   `tfsdk:"default_sorting_field"`
 	Fields              []CollectionResourceFieldModel `tfsdk:"fields"`
+	EnableNestedFields  types.Bool                     `tfsdk:"enable_nested_fields"`
 }
 
 type CollectionResourceFieldModel struct {
@@ -52,15 +53,15 @@ func (r *CollectionResource) Metadata(ctx context.Context, req resource.Metadata
 
 func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Collection resource",
+		MarkdownDescription: "Group of related documents which are roughly equivalent to a table in a relational database. Terraform will still remove auto-created fields for collections with auto-type, so you need to manually update the collection schema to match generated fields",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Id identifier",
-				// PlanModifiers: []planmodifier.String{
-				// 	stringplanmodifier.UseStateForUnknown(),
-				// },
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: "Collection name",
@@ -75,6 +76,12 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+			},
+			"enable_nested_fields": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: "Enable nested fields, must be enabled to use object/object[] types",
+				Default:             booldefault.StaticBool(false),
 			},
 		},
 		Blocks: map[string]schema.Block{
@@ -101,7 +108,7 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						},
 						"type": schema.StringAttribute{
 							Required:    true,
-							Description: "Field type",
+							Description: "Field type.",
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"string",
@@ -109,12 +116,16 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 									"int64",
 									"float",
 									"bool",
+									"geopoint",
+									"object",
 									"string[]",
 									"int32[]",
 									"int64[]",
 									"float[]",
 									"bool[]",
-									"geopoint",
+									"geopoint[]",
+									"object[]",
+									"string*",
 									"auto",
 								),
 							},
@@ -159,6 +170,7 @@ func (r *CollectionResource) Create(ctx context.Context, req resource.CreateRequ
 	schema := &api.CollectionSchema{}
 	schema.Name = data.Name.ValueString()
 	schema.DefaultSortingField = data.DefaultSortingField.ValueStringPointer()
+	schema.EnableNestedFields = data.EnableNestedFields.ValueBoolPointer()
 
 	fields := []api.Field{}
 
@@ -177,6 +189,7 @@ func (r *CollectionResource) Create(ctx context.Context, req resource.CreateRequ
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
 	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -194,8 +207,6 @@ func (r *CollectionResource) Read(ctx context.Context, req resource.ReadRequest,
 
 	id := data.Id.ValueString()
 
-	tflog.Error(ctx, "Got collection id:"+id)
-
 	collection, err := r.client.Collection(id).Retrieve(ctx)
 
 	if err != nil {
@@ -204,11 +215,12 @@ func (r *CollectionResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
-	tflog.Error(ctx, "Got collection name:"+collection.Name)
+	tflog.Info(ctx, "###Got collection name:"+collection.Name)
 
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
 	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -262,7 +274,7 @@ func (r *CollectionResource) Update(ctx context.Context, req resource.UpdateRequ
 		if _, ok := stateItems[field.Name.ValueString()]; !ok {
 			schema.Fields = append(schema.Fields, filedModelToApiField(field))
 
-			tflog.Warn(ctx, "###field will be created: "+field.Name.ValueString())
+			tflog.Info(ctx, "###Field will be created: "+field.Name.ValueString())
 
 		} else if stateItems[field.Name.ValueString()] != field {
 			//item was changed, need to update
@@ -273,13 +285,14 @@ func (r *CollectionResource) Update(ctx context.Context, req resource.UpdateRequ
 					Name: field.Name.ValueString(),
 				},
 				filedModelToApiField(field))
-			tflog.Warn(ctx, "###field will be updated: "+field.Name.ValueString())
+			tflog.Info(ctx, "###Field will be updated: "+field.Name.ValueString())
 
 		} else {
 			//item was not changed, do nothing
-			tflog.Warn(ctx, "###field remaining the same: "+field.Name.ValueString())
+			tflog.Info(ctx, "###Field remaining the same: "+field.Name.ValueString())
 		}
 
+		//delete processed field from the state object
 		delete(stateItems, field.Name.ValueString())
 	}
 
@@ -289,7 +302,7 @@ func (r *CollectionResource) Update(ctx context.Context, req resource.UpdateRequ
 				Drop: drop,
 				Name: field.Name.ValueString(),
 			})
-		tflog.Warn(ctx, "###field will be deleted: "+field.Name.ValueString())
+		tflog.Info(ctx, "###Field will be deleted: "+field.Name.ValueString())
 	}
 
 	_, err := r.client.Collection(state.Id.ValueString()).Update(ctx, schema)
@@ -307,14 +320,14 @@ func (r *CollectionResource) Update(ctx context.Context, req resource.UpdateRequ
 func (r *CollectionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data CollectionResourceModel
 
-	tflog.Error(ctx, "delete collection")
-
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	tflog.Warn(ctx, "###Delete collection with id="+data.Id.ValueString())
 
 	_, err := r.client.Collection(data.Id.ValueString()).Delete(ctx)
 
