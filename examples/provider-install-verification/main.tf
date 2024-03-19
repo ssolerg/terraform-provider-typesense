@@ -29,12 +29,12 @@ resource "typesense_collection" "test_collection" {
     type     = "string"
   }
 
-  fields {
-    facet    = true
-    index    = true
-    name     = "test_field_2_updated"
-    optional = true
-    type     = "object"
-  }
+}
+
+
+resource "typesense_synonym" "test" {
+  name            = "test"
+  collection_name = typesense_collection.test_collection.name
+  synonyms        = ["updated1", "value2", "value3"]
 
 }

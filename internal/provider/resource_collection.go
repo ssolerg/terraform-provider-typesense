@@ -331,12 +331,12 @@ func (r *CollectionResource) Delete(ctx context.Context, req resource.DeleteRequ
 
 	_, err := r.client.Collection(data.Id.ValueString()).Delete(ctx)
 
-	data.Id = types.StringValue("")
-
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete example, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete collection, got error: %s", err))
 		return
 	}
+
+	data.Id = types.StringValue("")
 }
 
 func (r *CollectionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
