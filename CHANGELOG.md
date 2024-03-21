@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.1.0...v1.2.0) (2024-03-21)
+
+
+### Features
+
+* Created synonym resource ([d8768de](https://github.com/ronati/terraform-provider-typesense/commit/d8768de2bb260cf455a1df57fc2fd13f205da1d0))
+* Fix error handling and added checks for empty string ([cf67835](https://github.com/ronati/terraform-provider-typesense/commit/cf67835b55322acbdc075d2ae63b75326027f659))
+
 # [1.1.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.0.8...v1.1.0) (2024-03-19)
 
 

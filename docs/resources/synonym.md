@@ -14,7 +14,7 @@ The synonyms feature allows you to define search terms that should be considered
 
 ```terraform
 resource "typesense_synonym" "my_synonym" {
-  name            = "smart-phone-synonym"
+  name            = "my-synonym"
   collection_name = typesense_collection.my_collection.name
   root            = "smart phone"
 
