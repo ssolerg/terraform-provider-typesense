@@ -131,6 +131,7 @@ func (p *TypesenseProvider) Configure(ctx context.Context, req provider.Configur
 func (p *TypesenseProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewCollectionResource,
+		NewSynonymResource,
 	}
 }
 
