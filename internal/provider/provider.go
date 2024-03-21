@@ -132,6 +132,7 @@ func (p *TypesenseProvider) Resources(_ context.Context) []func() resource.Resou
 	return []func() resource.Resource{
 		NewCollectionResource,
 		NewSynonymResource,
+		NewDocumentResource,
 	}
 }
 
