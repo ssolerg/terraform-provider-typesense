@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -71,7 +72,7 @@ func (r *CollectionResource) Schema(ctx context.Context, req resource.SchemaRequ
 				},
 			},
 			"default_sorting_field": schema.StringAttribute{
-				Required:            true,
+				Optional:            true,
 				MarkdownDescription: "Default sorting field",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -188,7 +189,11 @@ func (r *CollectionResource) Create(ctx context.Context, req resource.CreateRequ
 
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
-	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+
+	if collection.DefaultSortingField != nil && *collection.DefaultSortingField != "" {
+		data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	}
+
 	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
@@ -210,8 +215,12 @@ func (r *CollectionResource) Read(ctx context.Context, req resource.ReadRequest,
 	collection, err := r.client.Collection(id).Retrieve(ctx)
 
 	if err != nil {
-		data.Id = types.StringValue("")
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve collection, got error: %s", err))
+		if strings.Contains(err.Error(), "Not Found") {
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve collection, got error: %s", err))
+		}
+
 		return
 	}
 
@@ -219,7 +228,11 @@ func (r *CollectionResource) Read(ctx context.Context, req resource.ReadRequest,
 
 	data.Id = types.StringValue(collection.Name)
 	data.Name = types.StringValue(collection.Name)
-	data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+
+	if collection.DefaultSortingField != nil && *collection.DefaultSortingField != "" {
+		data.DefaultSortingField = types.StringPointerValue(collection.DefaultSortingField)
+	}
+
 	data.EnableNestedFields = types.BoolPointerValue(collection.EnableNestedFields)
 	data.Fields = flattenCollectionFields(collection.Fields)
 
@@ -332,7 +345,12 @@ func (r *CollectionResource) Delete(ctx context.Context, req resource.DeleteRequ
 	_, err := r.client.Collection(data.Id.ValueString()).Delete(ctx)
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete collection, got error: %s", err))
+		if strings.Contains(err.Error(), "Not Found") {
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete collection, got error: %s", err))
+		}
+
 		return
 	}
 

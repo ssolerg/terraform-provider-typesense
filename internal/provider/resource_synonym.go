@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -75,7 +76,7 @@ func (r *SynonymResource) Schema(ctx context.Context, req resource.SchemaRequest
 			"synonyms": schema.ListAttribute{
 				Required:            true,
 				ElementType:         types.StringType,
-				Validators:          []validator.List{listvalidator.SizeAtLeast(2)},
+				Validators:          []validator.List{listvalidator.SizeAtLeast(1)},
 				MarkdownDescription: "Array of words that should be considered as synonyms.",
 			},
 		},
@@ -148,14 +149,22 @@ func (r *SynonymResource) Read(ctx context.Context, req resource.ReadRequest, re
 	synonym, err := r.client.Collection(data.CollectionName.ValueString()).Synonym(data.Id.ValueString()).Retrieve(ctx)
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve synonym, got error: %s", err))
+		if strings.Contains(err.Error(), "Not Found") {
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve synonym, got error: %s", err))
+		}
+
 		return
 	}
 
 	data.Id = types.StringPointerValue(synonym.Id)
 	data.Name = types.StringPointerValue(synonym.Id)
-	data.Root = types.StringPointerValue(synonym.Root)
 	data.Synonyms = convertStringArrayToTerraformArray(synonym.Synonyms)
+
+	if synonym.Root != nil && *synonym.Root != "" {
+		data.Root = types.StringPointerValue(synonym.Root)
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -208,7 +217,12 @@ func (r *SynonymResource) Delete(ctx context.Context, req resource.DeleteRequest
 	_, err := r.client.Collection(data.CollectionName.ValueString()).Synonym(data.Id.ValueString()).Delete(ctx)
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete synonym, got error: %s", err))
+		if strings.Contains(err.Error(), "Not Found") {
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete synonym, got error: %s", err))
+		}
+
 		return
 	}
 

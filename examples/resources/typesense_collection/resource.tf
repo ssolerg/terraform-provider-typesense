@@ -1,6 +1,5 @@
 resource "typesense_collection" "my_collection" {
-  name                  = "my-collection"
-  default_sorting_field = "" //if not needed, should be set empty string to match Typesense collection schema
+  name = "my-collection"
 
   fields {
     facet    = true

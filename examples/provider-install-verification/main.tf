@@ -10,8 +10,7 @@ terraform {
 provider "typesense" {
 }
 resource "typesense_collection" "test_collection" {
-  name                  = "adanylenko-test-collection-v2"
-  default_sorting_field = ""
+  name = "adanylenko-test-collection-v2"
 
   fields {
     facet    = true
