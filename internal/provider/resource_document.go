@@ -150,6 +150,7 @@ func (r *DocumentResource) Read(ctx context.Context, req resource.ReadRequest, r
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
 			resp.State.RemoveResource(ctx)
+			resp.Diagnostics.AddWarning("Resource Not Found", fmt.Sprintf("Unable to retrieve document, got error: %s", err))
 		} else {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve document, got error: %s", err))
 		}
@@ -195,8 +196,15 @@ func (r *DocumentResource) Update(ctx context.Context, req resource.UpdateReques
 	_ = result // result is empty
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update document, got error: %s", err))
-		return
+
+		//check if error contains 201 response
+		if strings.Contains(err.Error(), "201") {
+			//ignore, sometimes typesense returns 201 code
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update document, got error: %s", err))
+			return
+		}
+
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -219,6 +227,7 @@ func (r *DocumentResource) Delete(ctx context.Context, req resource.DeleteReques
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
 			resp.State.RemoveResource(ctx)
+			resp.Diagnostics.AddWarning("Resource Not Found", fmt.Sprintf("Unable to delete document, got error: %s", err))
 		} else {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete document, got error: %s", err))
 		}

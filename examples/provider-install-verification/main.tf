@@ -37,3 +37,17 @@ resource "typesense_synonym" "test" {
   synonyms        = ["updated1", "value2", "value3"]
 
 }
+
+resource "typesense_document" "test" {
+  name            = "test-document-2"
+  collection_name = typesense_collection.test_collection.name
+
+  document = <<EOF
+{
+   "ronati_product_height_imp":"testValue1Updated5",
+   "test_field":"testValue2_2V4",
+   "newField1":"newFieldValue1",
+   "newField2":"newFieldValue2"
+}
+EOF
+}
