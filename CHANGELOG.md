@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.2.0...v1.3.0) (2024-03-22)
+
+
+### Features
+
+* Created document resource ([c0b7ee7](https://github.com/ronati/terraform-provider-typesense/commit/c0b7ee7786b618f981c99dee830ce1a365e17089))
+* Fixed document update reponse processing ([4929a77](https://github.com/ronati/terraform-provider-typesense/commit/4929a77c7709f42417819cfcb14b29c7b02bf3c5))
+
 # [1.2.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.1.0...v1.2.0) (2024-03-21)
 
 
