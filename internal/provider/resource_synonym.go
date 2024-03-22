@@ -124,7 +124,7 @@ func (r *SynonymResource) Create(ctx context.Context, req resource.CreateRequest
 	synonym, err := r.client.Collection(data.CollectionName.ValueString()).Synonyms().Upsert(ctx, data.Name.ValueString(), schema)
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create collection, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create synonym, got error: %s", err))
 		return
 	}
 
@@ -151,6 +151,7 @@ func (r *SynonymResource) Read(ctx context.Context, req resource.ReadRequest, re
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
 			resp.State.RemoveResource(ctx)
+			resp.Diagnostics.AddWarning("Resource Not Found", fmt.Sprintf("Unable to find synonym %s, removing from state", data.Id.ValueString()))
 		} else {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to retrieve synonym, got error: %s", err))
 		}
@@ -190,7 +191,7 @@ func (r *SynonymResource) Update(ctx context.Context, req resource.UpdateRequest
 	synonym, err := r.client.Collection(data.CollectionName.ValueString()).Synonyms().Upsert(ctx, data.Id.ValueString(), schema)
 
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create collection, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create synonym, got error: %s", err))
 		return
 	}
 
