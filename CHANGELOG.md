@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.3.0...v1.4.0) (2024-03-27)
+
+
+### Features
+
+* Fixed import for synonyms and objects ([6f32569](https://github.com/ronati/terraform-provider-typesense/commit/6f32569b14e119a84f86302681a33393a64f9d6a))
+
 # [1.3.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.2.0...v1.3.0) (2024-03-22)
 
 
