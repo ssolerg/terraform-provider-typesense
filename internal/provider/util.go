@@ -2,6 +2,8 @@ package provider
 
 import (
 	"encoding/json"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -42,4 +44,17 @@ func parseMapToJsonString(data map[string]interface{}) (jsontypes.Normalized, er
 		return jsontypes.NewNormalizedNull(), err
 	}
 	return jsontypes.NewNormalizedValue(string(jsonBytes)), nil
+}
+
+func splitCollectionRelatedId(input string) (string, string, error) {
+	eles := strings.Split(input, ".")
+	if len(eles) != 2 {
+		return "", "", fmt.Errorf("invalid format, format should be <collection>.<resource>")
+	}
+
+	return eles[0], eles[1], nil
+}
+
+func createId(collection string, resource string) string {
+	return fmt.Sprintf("%s.%s", collection, resource)
 }
