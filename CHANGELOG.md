@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.5.0...v1.6.0) (2024-03-27)
+
+
+### Features
+
+* Increase timeouts ([78f47be](https://github.com/ronati/terraform-provider-typesense/commit/78f47be75fbed117668ed2d602f3aefa37a80450))
+
 # [1.5.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.4.0...v1.5.0) (2024-03-27)
 
 
