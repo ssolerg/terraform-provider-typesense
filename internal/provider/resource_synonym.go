@@ -128,8 +128,7 @@ func (r *SynonymResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	data.Id = types.StringPointerValue(synonym.Id)
-	data.Name = types.StringPointerValue(synonym.Id)
+	data.Id = types.StringValue(createId(data.CollectionName.ValueString(), *synonym.Id))
 	data.Root = types.StringPointerValue(synonym.Root)
 	data.Synonyms = convertStringArrayToTerraformArray(synonym.Synonyms)
 
@@ -146,7 +145,13 @@ func (r *SynonymResource) Read(ctx context.Context, req resource.ReadRequest, re
 		return
 	}
 
-	synonym, err := r.client.Collection(data.CollectionName.ValueString()).Synonym(data.Id.ValueString()).Retrieve(ctx)
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
+
+	synonym, err := r.client.Collection(collectionName).Synonym(id).Retrieve(ctx)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
@@ -159,7 +164,7 @@ func (r *SynonymResource) Read(ctx context.Context, req resource.ReadRequest, re
 		return
 	}
 
-	data.Id = types.StringPointerValue(synonym.Id)
+	// data.Id = types.StringPointerValue(synonym.Id)
 	data.Name = types.StringPointerValue(synonym.Id)
 	data.Synonyms = convertStringArrayToTerraformArray(synonym.Synonyms)
 
@@ -188,14 +193,20 @@ func (r *SynonymResource) Update(ctx context.Context, req resource.UpdateRequest
 	tflog.Info(ctx, "synonyms: "+fmt.Sprint(schema.Synonyms))
 	tflog.Info(ctx, "collection name: "+data.CollectionName.ValueString())
 
-	synonym, err := r.client.Collection(data.CollectionName.ValueString()).Synonyms().Upsert(ctx, data.Id.ValueString(), schema)
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
+
+	synonym, err := r.client.Collection(collectionName).Synonyms().Upsert(ctx, id, schema)
 
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create synonym, got error: %s", err))
 		return
 	}
 
-	data.Id = types.StringPointerValue(synonym.Id)
+	// data.Id = types.StringPointerValue(synonym.Id)
 	data.Name = types.StringPointerValue(synonym.Id)
 	data.Root = types.StringPointerValue(synonym.Root)
 	data.Synonyms = convertStringArrayToTerraformArray(synonym.Synonyms)
@@ -215,7 +226,13 @@ func (r *SynonymResource) Delete(ctx context.Context, req resource.DeleteRequest
 
 	tflog.Warn(ctx, "###Delete Synonym with id="+data.Id.ValueString())
 
-	_, err := r.client.Collection(data.CollectionName.ValueString()).Synonym(data.Id.ValueString()).Delete(ctx)
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
+
+	_, err := r.client.Collection(collectionName).Synonym(id).Delete(ctx)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {

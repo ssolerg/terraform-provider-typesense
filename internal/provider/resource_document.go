@@ -121,7 +121,7 @@ func (r *DocumentResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	data.Id = types.StringValue(result["id"].(string))
+	data.Id = types.StringValue(createId(data.CollectionName.ValueString(), result["id"].(string)))
 
 	delete(result, "id")
 
@@ -145,7 +145,13 @@ func (r *DocumentResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	result, err := r.client.Collection(data.CollectionName.ValueString()).Document(data.Id.ValueString()).Retrieve(ctx)
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
+
+	result, err := r.client.Collection(collectionName).Document(id).Retrieve(ctx)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
@@ -158,7 +164,7 @@ func (r *DocumentResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	data.Id = types.StringValue(result["id"].(string))
+	// data.Id = types.StringValue(result["id"].(string))
 	data.Name = types.StringValue(result["id"].(string))
 
 	delete(result, "id")
@@ -190,9 +196,15 @@ func (r *DocumentResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	document["id"] = data.Id.ValueString()
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
 
-	result, err := r.client.Collection(data.CollectionName.ValueString()).Document(data.Id.ValueString()).Update(ctx, document)
+	document["id"] = id
+
+	result, err := r.client.Collection(collectionName).Document(id).Update(ctx, document)
 	_ = result // result is empty
 
 	if err != nil {
@@ -220,9 +232,15 @@ func (r *DocumentResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
+	collectionName, id, parseError := splitCollectionRelatedId(data.Id.ValueString())
+	if parseError != nil {
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Unable to split resource ID: %s", parseError))
+		return
+	}
+
 	tflog.Warn(ctx, "###Delete Document with id="+data.Id.ValueString())
 
-	_, err := r.client.Collection(data.CollectionName.ValueString()).Document(data.Id.ValueString()).Delete(ctx)
+	_, err := r.client.Collection(collectionName).Document(id).Delete(ctx)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
