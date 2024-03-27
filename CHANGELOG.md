@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.4.0...v1.5.0) (2024-03-27)
+
+
+### Features
+
+* Fixed nested fields ([e9ca6e9](https://github.com/ronati/terraform-provider-typesense/commit/e9ca6e9793a123a663006e2d68351ed528ee18e0))
+
 # [1.4.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.3.0...v1.4.0) (2024-03-27)
 
 

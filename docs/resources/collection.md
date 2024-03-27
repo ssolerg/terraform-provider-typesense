@@ -45,7 +45,7 @@ resource "typesense_collection" "my_collection" {
 
 - `default_sorting_field` (String) Default sorting field
 - `enable_nested_fields` (Boolean) Enable nested fields, must be enabled to use object/object[] types
-- `fields` (Block List) (see [below for nested schema](#nestedblock--fields))
+- `fields` (Block Set) (see [below for nested schema](#nestedblock--fields))
 
 ### Read-Only
 
