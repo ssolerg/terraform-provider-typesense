@@ -3,12 +3,12 @@
 page_title: "typesense_alias Resource - typesense"
 subcategory: ""
 description: |-
-  Alias
+  An alias is a virtual collection name that points to a real collection. If you're familiar with symbolic links on Linux, it's very similar to that.
 ---
 
 # typesense_alias (Resource)
 
-Alias
+An alias is a virtual collection name that points to a real collection. If you're familiar with symbolic links on Linux, it's very similar to that.
 
 ## Example Usage
 

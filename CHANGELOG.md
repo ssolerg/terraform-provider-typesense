@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.6.0...v1.7.0) (2024-04-01)
+
+
+### Features
+
+* Implemented alias resource ([16cfd8c](https://github.com/ronati/terraform-provider-typesense/commit/16cfd8cd4ce7a008ea2856f5ad6edc6f5cd51cff))
+
 # [1.6.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.5.0...v1.6.0) (2024-03-27)
 
 
