@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/ronati/terraform-provider-typesense/compare/v1.7.0...v1.7.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* Upgrade node version ([969cb50](https://github.com/ronati/terraform-provider-typesense/commit/969cb5012c344aec179905862c6743131047735d))
+
 # [1.7.0](https://github.com/ronati/terraform-provider-typesense/compare/v1.6.0...v1.7.0) (2024-04-01)
 
 
